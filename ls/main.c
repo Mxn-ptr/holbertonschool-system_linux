@@ -18,5 +18,6 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 			printf("%s   ", read->d_name);
 	}
 	printf("\n");
+	free(dir);
 	return (0);
 }
