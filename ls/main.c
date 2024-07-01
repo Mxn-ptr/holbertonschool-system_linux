@@ -6,7 +6,7 @@
  * @argv: array of arguments
  * Return: Always 0 for the moment
 */
-int main(int argc, char **argv)
+int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 {
 	DIR *dir;
 	struct dirent *read;
