@@ -1,6 +1,13 @@
 #include "ls.h"
 
-int main(int argc, char **argv) {
+/**
+ * main - Entry point of ls clone function
+ * @argc: number of arguments
+ * @argv: array of arguments
+ * Return: Always 0 for the moment
+*/
+int main(int argc, char **argv)
+{
 	DIR *dir;
 	struct dirent *read;
 
