@@ -14,7 +14,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 	dir = opendir(".");
 	while ((read = readdir(dir)) != 0)
 	{
-		if (_strcmp(read->d_name, ".") != 0 && _strcmp(read->d_name, ".."))
+		if (read->d_name[0] != '.')
 			printf("%s   ", read->d_name);
 	}
 	printf("\n");
