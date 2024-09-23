@@ -16,12 +16,12 @@ int _ls(const char *prog, const char *dir, int nb_args)
 	{
 		if (errno == EACCES)
 		{
-			dprintf(2, "%s: %s: %s\n", prog, dir, strerror(errno));
+			fprintf(stderr, "%s: %s: %s\n", prog, dir, strerror(errno));
 			return (1);
 		}
 		else
 		{
-			dprintf(2, "%s: cannot access %s: %s\n", prog, dir, strerror(errno));
+			fprintf(stderr, "%s: cannot access %s: %s\n", prog, dir, strerror(errno));
 			return (2);
 		}
 	}
