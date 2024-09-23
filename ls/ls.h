@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <string.h>
-
-int _strcmp(char *s1, char *s2);
+#include <errno.h>
 
 #endif
