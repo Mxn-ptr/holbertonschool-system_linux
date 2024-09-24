@@ -7,29 +7,36 @@
  * @nb_args: number of arguments passed to the program
  * Return: 0 is succeded else 1 or 2
 */
-int _ls(const char *prog, const char *dir, int nb_args)
+int _ls(const char *prog, const char *path, int nb_args)
 {
+	struct stat file_stat;
 	struct dirent *d;
 	DIR *dh;
-	dh = opendir(dir);
+
+	if (lstat(path, &file_stat) == 0 && S_ISREG(file_stat.st_mode))
+	{
+		printf("%s\n", path);
+		return (0);
+	}
+	dh = opendir(path);
 	if (!dh)
 	{
 		if (errno == EACCES)
 		{
-			fprintf(stderr, "%s: %s: ", prog, dir);
+			fprintf(stderr, "%s: %s: ", prog, path);
 			perror("");
 			return (1);
 		}
 		else
 		{
-			fprintf(stderr, "%s: cannot access %s: ", prog, dir);
+			fprintf(stderr, "%s: cannot access %s: ", prog, path);
 			perror("");
 			return (2);
 		}
 	}
 	if (nb_args > 1)
 	{
-		printf("%s:\n", dir);
+		printf("%s:\n", path);
 	}
 	while ((d = readdir(dh)) != NULL)
 	{
@@ -50,6 +57,7 @@ int _ls(const char *prog, const char *dir, int nb_args)
 int main(int argc, char **argv)
 {
 	int i, result = 0;
+
 	if (argc == 1)
 	{
 		result = _ls(argv[0], ".", argc -1);
@@ -58,6 +66,8 @@ int main(int argc, char **argv)
 	{
 		for (i = 1; i < argc; i++)
 		{
+			if (i > 1)
+				printf("\n");
 			result = _ls(argv[0], argv[i], argc - 1);
 		}
 	}
