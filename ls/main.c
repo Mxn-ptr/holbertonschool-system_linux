@@ -29,7 +29,7 @@ int _ls(const char *prog, const char *path, int nb_args)
 		}
 		else
 		{
-			fprintf(stderr, "%s: cannot access %s: ", prog, path);
+			fprintf(stderr, "%s: cannot open directory %s: ", prog, path);
 			perror("");
 			return (2);
 		}
