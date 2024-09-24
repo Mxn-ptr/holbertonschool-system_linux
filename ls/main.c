@@ -23,13 +23,13 @@ int _ls(const char *prog, const char *path, int nb_args)
 	{
 		if (errno == EACCES)
 		{
-			fprintf(stderr, "%s: %s: ", prog, path);
+			fprintf(stderr, "%s: cannot open directory %s: ", prog, path);
 			perror("");
 			return (1);
 		}
 		else
 		{
-			fprintf(stderr, "%s: cannot open directory %s: ", prog, path);
+			fprintf(stderr, "%s: cannot access %s: ", prog, path);
 			perror("");
 			return (2);
 		}
