@@ -4,10 +4,10 @@
  * _ls - Copy of the function ls
  * @prog: name of the programe for display error
  * @dir: name of the directory to display
- * @nb_args: number of arguments passed to the program
+ * @argc: number of arguments passed to the program
  * Return: 0 is succeded else 1 or 2
 */
-int _ls(const char *prog, const char *path, int nb_args)
+int _ls(const char *prog, const char *path, int argc, int is_sorting)
 {
 	struct stat file_stat;
 	struct dirent *d;
@@ -34,16 +34,21 @@ int _ls(const char *prog, const char *path, int nb_args)
 			return (2);
 		}
 	}
-	if (nb_args > 1)
+	if (argc > 1)
 	{
 		printf("%s:\n", path);
 	}
 	while ((d = readdir(dh)) != NULL)
 	{
 		if (d->d_name[0] != '.')
+		{
 			printf("%s  ", d->d_name);
+			if (is_sorting)
+				printf("\n");
+		}
 	}
-	printf("\n");
+	if (!is_sorting)
+		printf("\n");
 	closedir(dh);
 	return (0);
 }
@@ -56,11 +61,28 @@ int _ls(const char *prog, const char *path, int nb_args)
 */
 int main(int argc, char **argv)
 {
-	int i, result = 0;
+	int i, j, result = 0;
+	int is_option = 0;
+	int is_sorting = 0;
 
+	for (i = 0; i < argc; i++)
+	{
+		if (argv[i][0] == '-' && argv[i][1] == '1')
+		{
+			is_option = 1;
+			is_sorting = 1;
+			break;
+		}
+	}
+	if (is_option)
+	{
+		for (j = i; j < argc - 1; j++)
+			argv[j] = argv[j + 1];
+		argc--;
+	}
 	if (argc == 1)
 	{
-		result = _ls(argv[0], ".", argc -1);
+		result = _ls(argv[0], ".", argc - 1, is_sorting);
 	}
 	else
 	{
@@ -68,7 +90,7 @@ int main(int argc, char **argv)
 		{
 			if (i > 1)
 				printf("\n");
-			result = _ls(argv[0], argv[i], argc - 1);
+			result = _ls(argv[0], argv[i], argc - 1, is_sorting);
 		}
 	}
 	return (result);
