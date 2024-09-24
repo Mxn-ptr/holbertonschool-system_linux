@@ -120,5 +120,6 @@ int main(int argc, char **argv)
 			result = _ls(argv[0], arg_tab[i], nb_args - 1, is_sorting);
 		}
 	}
+	free(arg_tab);
 	return (result);
 }
