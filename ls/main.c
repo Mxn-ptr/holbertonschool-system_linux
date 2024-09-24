@@ -42,9 +42,11 @@ int _ls(const char *prog, const char *path, int argc, int is_sorting)
 	{
 		if (d->d_name[0] != '.')
 		{
-			printf("%s  ", d->d_name);
+			printf("%s", d->d_name);
 			if (is_sorting)
 				printf("\n");
+			else
+				printf("  ");
 		}
 	}
 	if (!is_sorting)
