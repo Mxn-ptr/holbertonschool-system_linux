@@ -70,31 +70,23 @@ int main(int argc, char **argv)
 	for (i = 1; i < argc; i++)
 	{
 		if (argv[i][0] != '-')
-		{
 			argv[nb_args++] = argv[i];
-		}
 		else
 		{
 			for (j = 1; argv[i][j]; j++)
 			{
 				if (argv[i][j] == '1')
-				{
 					is_sorting = 1;
-				}
 			}
 		}
 	}
 
 	if (nb_args == 1)
-	{
 		result = _ls(argv[0], ".", nb_args - 1, is_sorting);
-	}
 	else
 	{
 		for (i = 1; i < nb_args; i++)
 		{
-			if (i > 1)
-				printf("\n");
 			result = _ls(argv[0], argv[i], nb_args - 1, is_sorting);
 		}
 	}
