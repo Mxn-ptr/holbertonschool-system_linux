@@ -1,5 +1,30 @@
 #include "ls.h"
 
+
+void swap(char **argv, int idx1, int idx2)
+{
+	char *tmp = argv[idx1];
+
+	argv[idx1] = argv[idx2];
+	argv[idx2] = tmp;
+}
+
+int organize_path(char **argv, int size)
+{
+	struct stat path_stat;
+	int i, pos = 1;
+
+    for (i = 1; i < size; i++) {
+        if(lstat(argv[i], &path_stat) == 0 && S_ISREG(path_stat.st_mode))
+		{
+            if(i > 1)
+				swap(argv, pos, i);
+            pos++;
+        }
+    }
+	return (pos);
+}
+
 /**
  * _ls - Copy of the function ls
  * @prog: name of the programe for display error
@@ -9,9 +34,15 @@
 */
 int _ls(const char *prog, const char *path, int argc, int is_sorting)
 {
+	struct stat file_stat;
 	struct dirent *d;
 	DIR *dh;
 
+	if (lstat(path, &file_stat) == 0 && S_ISREG(file_stat.st_mode))
+	{
+		printf("%s\n", path);
+		return (0);
+	}
 	dh = opendir(path);
 	if (!dh)
 	{
@@ -60,21 +91,12 @@ int main(int argc, char **argv)
 	int i, j, result = 0;
 	int is_sorting = 0;
 	int nb_args = 1;
-	struct stat file_stat;
-	int count_file = 0;
+	int pos_file = 1;
 
 	for (i = 1; i < argc; i++)
 	{
 		if (argv[i][0] != '-')
-		{
-			if (lstat(argv[i], &file_stat) == 0 && S_ISREG(file_stat.st_mode))
-			{
-				printf("%s\n", argv[i]);
-				count_file++;
-				continue;
-			}
 			argv[nb_args++] = argv[i];
-		}
 		else
 		{
 			for (j = 1; argv[i][j]; j++)
@@ -84,15 +106,15 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	if (count_file > 0 && nb_args > 1)
-		printf("\n");
-	if (nb_args == 1 && count_file == 0)
+
+	pos_file = organize_path(argv, nb_args);
+	if (nb_args == 1)
 		result = _ls(argv[0], ".", nb_args - 1, is_sorting);
 	else
 	{
 		for (i = 1; i < nb_args; i++)
 		{
-			if (i > 1)
+			if (i > pos_file - 1)
 				printf("\n");
 			result = _ls(argv[0], argv[i], nb_args - 1, is_sorting);
 		}
