@@ -99,11 +99,13 @@ int main(int argc, char **argv)
 		result = _ls(argv[0], ".", nb_args + file_count, is_sorting, is_all, is_A);
 	else
 	{
-		for (i = 0; i < nb_args; i++)
+		for (i = 0, j = 0; i < nb_args; i++)
 		{
-			if (i > 0 || file_count > 1)
+			if (j > 0 || file_count > 1)
 				printf("\n");
 			result = _ls(argv[0], argv[i], nb_args + file_count, is_sorting, is_all, is_A);
+			if (result != 0)
+				j--;
 		}
 	}
 	return (result);
