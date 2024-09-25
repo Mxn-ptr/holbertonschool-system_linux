@@ -87,7 +87,7 @@ int main(int argc, char **argv)
 	{
 		for (i = 1; i < nb_args; i++)
 		{
-			if (nb_args > 1)
+			if (i > 1)
 				printf("\n");
 			result = _ls(argv[0], argv[i], nb_args - 1, is_sorting);
 		}
