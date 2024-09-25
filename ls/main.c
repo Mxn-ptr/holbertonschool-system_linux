@@ -61,7 +61,7 @@ int _ls(const char *prog, const char *path, int argc, int is_sorting, int is_all
 int main(int argc, char **argv)
 {
 	int i, j, result = 0;
-	int nb_args = 0;
+	int nb_args = 1;
 	int is_sorting = 0;
 	int is_all = 0;
 	int is_A = 0;
@@ -95,17 +95,15 @@ int main(int argc, char **argv)
 		}
 	}
 
-	if (nb_args == 0 && file_count == 0)
+	if (nb_args - 1 == 0 && file_count == 0)
 		result = _ls(argv[0], ".", nb_args + file_count, is_sorting, is_all, is_A);
 	else
 	{
-		for (i = 0, j = 0; i < nb_args; i++)
+		for (i = 1; i < nb_args; i++)
 		{
-			if (j > 0 || file_count > 1)
+			if (i > 1 || file_count > 1)
 				printf("\n");
 			result = _ls(argv[0], argv[i], nb_args + file_count, is_sorting, is_all, is_A);
-			if (result != 0)
-				j--;
 		}
 	}
 	return (result);
