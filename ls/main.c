@@ -94,8 +94,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-
-	if (nb_args - 1 == 0 && file_count == 0)
+	if (nb_args == 1)
 		result = _ls(argv[0], ".", nb_args + file_count, is_sorting, is_all, is_A);
 	else
 	{
@@ -103,7 +102,7 @@ int main(int argc, char **argv)
 		{
 			if (i > 1 || file_count > 1)
 				printf("\n");
-			result = _ls(argv[0], argv[i], nb_args + file_count, is_sorting, is_all, is_A);
+			result = _ls(argv[0], argv[i], (nb_args - 1) + file_count, is_sorting, is_all, is_A);
 		}
 	}
 	return (result);
