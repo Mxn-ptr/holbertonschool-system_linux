@@ -114,7 +114,7 @@ int main(int argc, char **argv)
 	{
 		for (i = 1; i < nb_args; i++)
 		{
-			if (i > pos_file - 1)
+			if (i > pos_file - 1 && pos_file != 1)
 				printf("\n");
 			result = _ls(argv[0], argv[i], nb_args - 1, is_sorting);
 		}
