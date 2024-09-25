@@ -64,16 +64,17 @@ int _ls(const char *prog, const char *path, int argc, int is_sorting)
 int main(int argc, char **argv)
 {
 	int i, j, result = 0;
-	int is_option = 0;
 	int is_sorting = 0;
-	int nb_args = 0;
-	char **arg_tab;
+	int nb_args = 1;
 
-	for (i = 0; i < argc; i++)
+	for (i = 1; i < argc; i++)
 	{
-		if (argv[i][0] == '-')
+		if (argv[i][0] != '-')
 		{
-			is_option = 1;
+			argv[nb_args++] = argv[i];
+		}
+		else
+		{
 			for (j = 1; argv[i][j]; j++)
 			{
 				if (argv[i][j] == '1')
@@ -82,32 +83,9 @@ int main(int argc, char **argv)
 				}
 			}
 		}
-		else
-		{
-			nb_args++;
-		}
 	}
-	if (is_option)
-	{
-		arg_tab = malloc(sizeof(char *) * (nb_args + 1));
-		if (arg_tab == NULL)
-		{
-			fprintf(stderr, "Error during the allocation\n");
-			return (1);
-		}
-		for (i = 0, j = 0; argv[i]; i++)
-		{
-			if (argv[i][0] != '-')
-			{
-				arg_tab[j] = argv[i];
-				j++;
-			}
-		}
-		arg_tab[j] = NULL;
-	}
-	else
-		arg_tab = argv;
-	if (nb_args == 0)
+
+	if (nb_args == 1)
 	{
 		result = _ls(argv[0], ".", nb_args - 1, is_sorting);
 	}
@@ -117,9 +95,8 @@ int main(int argc, char **argv)
 		{
 			if (i > 1)
 				printf("\n");
-			result = _ls(argv[0], arg_tab[i], nb_args - 1, is_sorting);
+			result = _ls(argv[0], argv[i], nb_args - 1, is_sorting);
 		}
 	}
-	free(arg_tab);
 	return (result);
 }
