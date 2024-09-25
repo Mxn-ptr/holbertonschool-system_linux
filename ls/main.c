@@ -9,15 +9,9 @@
 */
 int _ls(const char *prog, const char *path, int argc, int is_sorting)
 {
-	struct stat file_stat;
 	struct dirent *d;
 	DIR *dh;
 
-	if (lstat(path, &file_stat) == 0 && S_ISREG(file_stat.st_mode))
-	{
-		printf("%s\n", path);
-		return (0);
-	}
 	dh = opendir(path);
 	if (!dh)
 	{
@@ -66,11 +60,21 @@ int main(int argc, char **argv)
 	int i, j, result = 0;
 	int is_sorting = 0;
 	int nb_args = 1;
+	struct stat file_stat;
+	int count_file = 0;
 
 	for (i = 1; i < argc; i++)
 	{
 		if (argv[i][0] != '-')
+		{
+			if (lstat(argv[i], &file_stat) == 0 && S_ISREG(file_stat.st_mode))
+			{
+				printf("%s\n", argv[i]);
+				count_file++;
+				continue;
+			}
 			argv[nb_args++] = argv[i];
+		}
 		else
 		{
 			for (j = 1; argv[i][j]; j++)
@@ -80,8 +84,9 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-
-	if (nb_args == 1)
+	if (count_file > 0 && nb_args > 1)
+		printf("\n");
+	if (nb_args == 1 && count_file == 0)
 		result = _ls(argv[0], ".", nb_args - 1, is_sorting);
 	else
 	{
