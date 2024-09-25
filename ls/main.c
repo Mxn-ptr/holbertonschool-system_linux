@@ -94,7 +94,7 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	if (nb_args == 1)
+	if (nb_args == 1 && file_count < 1)
 		result = _ls(argv[0], ".", nb_args + file_count, is_sorting, is_all, is_A);
 	else
 	{
