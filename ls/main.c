@@ -9,7 +9,7 @@ void swap(char **argv, int idx1, int idx2)
 	argv[idx2] = tmp;
 }
 
-int organize_path(char **argv, int size)
+void organize_path(char **argv, int size)
 {
 	struct stat path_stat;
 	int i, pos = 1;
@@ -22,7 +22,6 @@ int organize_path(char **argv, int size)
             pos++;
         }
     }
-	return (pos);
 }
 
 /**
@@ -32,7 +31,7 @@ int organize_path(char **argv, int size)
  * @argc: number of arguments passed to the program
  * Return: 0 is succeded else 1 or 2
 */
-int _ls(const char *prog, const char *path, int argc, int is_sorting)
+int _ls(const char *prog, const char *path, int argc, int is_sorting, int is_all, int is_A)
 {
 	struct stat file_stat;
 	struct dirent *d;
@@ -65,7 +64,7 @@ int _ls(const char *prog, const char *path, int argc, int is_sorting)
 	}
 	while ((d = readdir(dh)) != NULL)
 	{
-		if (d->d_name[0] != '.')
+		if (d->d_name[0] != '.' || is_all)
 		{
 			printf("%s", d->d_name);
 			if (is_sorting)
@@ -89,9 +88,10 @@ int _ls(const char *prog, const char *path, int argc, int is_sorting)
 int main(int argc, char **argv)
 {
 	int i, j, result = 0;
-	int is_sorting = 0;
 	int nb_args = 1;
-	int pos_file = 1;
+	int is_sorting = 0;
+	int is_all = 0;
+	int is_A = 0;
 
 	for (i = 1; i < argc; i++)
 	{
@@ -103,20 +103,22 @@ int main(int argc, char **argv)
 			{
 				if (argv[i][j] == '1')
 					is_sorting = 1;
+				if (argv[i][j] == 'a')
+					is_all = 1;
+				if (argv[i][j] == 'A')
+					is_A = 1;
 			}
 		}
 	}
 
-	pos_file = organize_path(argv, nb_args);
+	organize_path(argv, nb_args);
 	if (nb_args == 1)
-		result = _ls(argv[0], ".", nb_args - 1, is_sorting);
+		result = _ls(argv[0], ".", nb_args - 1, is_sorting, is_all, is_A);
 	else
 	{
 		for (i = 1; i < nb_args; i++)
 		{
-			if (i > pos_file - 1 && pos_file != 1)
-				printf("\n");
-			result = _ls(argv[0], argv[i], nb_args - 1, is_sorting);
+			result = _ls(argv[0], argv[i], nb_args - 1, is_sorting, is_all, is_A);
 		}
 	}
 	return (result);
