@@ -63,8 +63,12 @@ int _ls(const char *prog, const char *path, int argc, int is_sorting, int is_all
 	}
 	while ((d = readdir(dh)) != NULL)
 	{
-		if (is_A && (_strcmp(d->d_name, ".") == 0 || _strcmp(d->d_name, "..") == 0) && (d->d_name[0] == '.' || !is_all))
+		if (is_A && (strcmp(d->d_name, ".") == 0 || strcmp(d->d_name, "..") == 0))
 			continue;
+
+		if (!is_all && !is_A && d->d_name[0] == '.')
+			continue;
+
 		printf("%s", d->d_name);
 			if (is_sorting)
 				printf("\n");
