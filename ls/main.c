@@ -7,7 +7,7 @@
  * @argc: number of arguments passed to the program
  * Return: 0 is succeded else 1 or 2
 */
-int _ls(const char *prog, const char *path, int argc, int is_sorting, int is_all, int is_A)
+int _ls(const char *prog, const char *path, int argc, int is_sorting, int is_all, int is_A, int is_detail)
 {
 	struct dirent *d;
 	DIR *dh;
@@ -40,13 +40,18 @@ int _ls(const char *prog, const char *path, int argc, int is_sorting, int is_all
 		if (!is_all && !is_A && d->d_name[0] == '.')
 			continue;
 
+		if (is_detail)
+		{
+			print_details(d->d_name);
+			continue;
+		}
 		printf("%s", d->d_name);
 			if (is_sorting)
 				printf("\n");
 			else
 				printf("  ");
 	}
-	if (!is_sorting)
+	if (!is_sorting && !is_detail)
 		printf("\n");
 	closedir(dh);
 	return (0);
@@ -65,6 +70,7 @@ int main(int argc, char **argv)
 	int is_sorting = 0;
 	int is_all = 0;
 	int is_A = 0;
+	int is_detail = 0;
 	int file_count = 0;
 	struct stat path_stat;
 
@@ -91,18 +97,20 @@ int main(int argc, char **argv)
 					is_all = 1;
 				if (argv[i][j] == 'A')
 					is_A = 1;
+				if (argv[i][j] == 'l')
+					is_detail = 1;
 			}
 		}
 	}
 	if (nb_args == 1 && file_count < 1)
-		result = _ls(argv[0], ".", nb_args + file_count, is_sorting, is_all, is_A);
+		result = _ls(argv[0], ".", nb_args + file_count, is_sorting, is_all, is_A, is_detail);
 	else
 	{
 		for (i = 1; i < nb_args; i++)
 		{
 			if (i > 1 || file_count > 1)
 				printf("\n");
-			result = _ls(argv[0], argv[i], (nb_args - 1) + file_count, is_sorting, is_all, is_A);
+			result = _ls(argv[0], argv[i], (nb_args - 1) + file_count, is_sorting, is_all, is_A, is_detail);
 		}
 	}
 	return (result);
