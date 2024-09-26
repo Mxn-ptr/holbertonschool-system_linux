@@ -56,10 +56,10 @@ void print_details(char *filename)
 	print_perms(file);
 	if (file.st_nlink < 10)
 		printf(" ");
-	printf(" %hu ", file.st_nlink);
+	printf(" %lu ", file.st_nlink);
 	printf("%s  ", usr->pw_name);
 	printf("%s  ", grp->gr_name);
-	printf("%lld  ", file.st_size);
+	printf("%ld  ", file.st_size);
 	for (i = 4; i < 16; i++)
 		printf("%c", time[i]);
 	printf(" %s\n", filename);
