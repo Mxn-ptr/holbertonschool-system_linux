@@ -6,7 +6,6 @@
  * @s2 : second string to compare
  * Return: equal to 0 if it is equal
  */
-
 int _strcmp(char *s1, char *s2)
 {
 	while (*s1 == *s2)
@@ -21,6 +20,11 @@ int _strcmp(char *s1, char *s2)
 	return (*s1 - *s2);
 }
 
+/**
+ * _strlen - Calculates the length of a string
+ * @s: string to calculated
+ * Return: the length of a string
+*/
 int _strlen(char *s)
 {
 	int i;
@@ -58,6 +62,10 @@ char *_strcat(char *dest, char *src)
 	return (dest);
 }
 
+/**
+ * print_perms - print the permissions of a file
+ * @file: struct of the file with infos
+*/
 void print_perms(struct stat file)
 {
 	char perms[11];
@@ -76,7 +84,12 @@ void print_perms(struct stat file)
 	printf("%s", perms);
 }
 
-void print_details(char *path, char *filename) 
+/**
+ * print_details - Print the details of a file with option -l
+ * @path: name of the directory
+ * @filename: name of the file
+*/
+void print_details(char *path, char *filename)
 {
 	int i;
 	struct stat file;
