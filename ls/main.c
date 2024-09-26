@@ -7,7 +7,7 @@
  * @argc: number of arguments passed to the program
  * Return: 0 is succeded else 1 or 2
 */
-int _ls(const char *prog, const char *path, int argc, int is_sorting, int is_all, int is_A, int is_detail)
+int _ls(const char *prog, char *path, int argc, int is_sorting, int is_all, int is_A, int is_detail)
 {
 	struct dirent *d;
 	DIR *dh;
@@ -42,7 +42,7 @@ int _ls(const char *prog, const char *path, int argc, int is_sorting, int is_all
 
 		if (is_detail)
 		{
-			print_details(d->d_name);
+			print_details(path, d->d_name);
 			continue;
 		}
 		printf("%s", d->d_name);
