@@ -85,6 +85,7 @@ void print_details(char *path, char *filename)
 	char *time;
 	char *full_path = malloc(_strlen(path) + _strlen(filename) + 2);
 
+	full_path[0] = '\0';
 	_strcat(full_path, path);
 	_strcat(full_path, "/");
 	_strcat(full_path, filename);
