@@ -12,6 +12,6 @@
 #include <time.h>
 
 int _strcmp(char *s1, char *s2);
-void print_details(char *filename);
+void print_details(char *path, char *filename);
 
 #endif
