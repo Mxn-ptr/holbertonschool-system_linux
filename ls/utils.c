@@ -104,7 +104,7 @@ void print_details(char *path, char *filename)
 	printf("%s  ", usr->pw_name);
 	printf("%s  ", grp->gr_name);
 	printf("%ld  ", file.st_size);
-	for (i = 4; i < 16; i++)
+	for (i = 4; i < 15; i++)
 		printf("%c", time[i]);
 	printf(" %s\n", filename);
 	free(full_path);
